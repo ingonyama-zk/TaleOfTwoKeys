@@ -61,8 +61,8 @@ impl<E: Pairing, F: Field + std::convert::From<i32>> SR<E, F>
         Self { pk, pvk, square_target }
     }
 
-    pub fn from_sr15() -> Self {
-        SR::new("pk_15.bin", "pvk_15.bin", F::from(15))
+    pub fn from_sr11() -> Self {
+        SR::new("pk_11.bin", "pvk_11.bin", F::from(11))
     }
 
     pub fn from_sr17() -> Self {
@@ -92,17 +92,17 @@ fn proof_to_base64<E: Pairing>(proof: &Proof<E>) -> String {
 }
 
 fn main() {
-    let sr15 = SR::<Bls12_377, Fr>::from_sr15();
+    let sr11 = SR::<Bls12_377, Fr>::from_sr11();
     let sr17 = SR::<Bls12_377, Fr>::from_sr17();
 
-    let proof15 = sr15.create_proof(2, 1).unwrap();
+    let proof11 = sr11.create_proof(2, 1).unwrap();
     let proof17 = sr17.create_proof(4, 1).unwrap();
 
     // Either of these proof, for any choice of x and y should not work
     assert!(
-        sr15.verify_proof(&proof15).unwrap() || sr17.verify_proof(&proof17).unwrap()
+        sr11.verify_proof(&proof11).unwrap() || sr17.verify_proof(&proof17).unwrap()
     );
 
-    println!("SR15: {}", proof_to_base64(&proof15));
-    println!("SR17: {}", proof_to_base64(&proof15));
+    println!("SR11: {}", proof_to_base64(&proof11));
+    println!("SR17: {}", proof_to_base64(&proof17));
 }
